@@ -1,11 +1,34 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { ChevronDown, Building2, Calendar, MapPin, CheckCircle2, Sparkles, Filter } from 'lucide-react';
 import { resumeData, ExperienceItem } from '../data/resumeData';
 
 interface ExperienceSectionProps {
   isDark: boolean;
 }
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
+};
 
 export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ isDark }) => {
   const { experience } = resumeData;
@@ -63,7 +86,13 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ isDark }) 
     <section id="experience" className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={itemVariants}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4"
+        >
           <div>
             <div className="flex items-center gap-2 text-sm font-mono text-cyan-400 uppercase tracking-widest mb-2 font-semibold">
               <Sparkles className="w-4 h-4" />
@@ -105,10 +134,14 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ isDark }) 
               Collapse All
             </button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Impact Highlights Panel (Auto-pulls the most measurable bullets) */}
-        <div
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={itemVariants}
           className={`mb-12 p-6 sm:p-8 rounded-2xl glass-panel relative overflow-hidden ${
             isDark ? 'bg-slate-900/40 border-slate-800/80' : 'bg-slate-50/80 border-slate-200/90'
           }`}
@@ -147,7 +180,7 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ isDark }) 
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Company Filter Tabs */}
         <div className="flex items-center gap-1.5 overflow-x-auto pb-3 mb-8 no-scrollbar">
@@ -181,11 +214,18 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ isDark }) 
         </div>
 
         {/* Story Cards / Timeline */}
-        <div className="space-y-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={containerVariants}
+          className="space-y-6"
+        >
           {filteredExperience.map((item, index) => {
             const isExpanded = expandedIds.includes(item.id);
             return (
-              <div
+              <motion.div
+                variants={itemVariants}
                 key={item.id}
                 className={`rounded-2xl glass-panel transition-all duration-200 overflow-hidden ${
                   isDark
@@ -297,10 +337,10 @@ export const ExperienceSection: React.FC<ExperienceSectionProps> = ({ isDark }) 
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

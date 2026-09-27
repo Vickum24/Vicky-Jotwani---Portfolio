@@ -1,10 +1,34 @@
 import React, { useState } from 'react';
+import { motion, type Variants } from 'motion/react';
 import { Layers, ShieldCheck, Cpu, Terminal, CheckCircle2 } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
 interface SkillsSectionProps {
   isDark: boolean;
 }
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
+};
 
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDark }) => {
   const { skills } = resumeData;
@@ -27,7 +51,13 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDark }) => {
     <section id="skills" className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={itemVariants}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4"
+        >
           <div>
             <div className="flex items-center gap-2 text-sm font-mono text-cyan-400 uppercase tracking-widest mb-2 font-semibold">
               <Layers className="w-4 h-4" />
@@ -75,12 +105,19 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDark }) => {
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Skill Clusters Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12"
+        >
           {displayedSkills.map((group, idx) => (
-            <div
+            <motion.div
+              variants={itemVariants}
               key={idx}
               className={`p-6 sm:p-7 rounded-2xl glass-panel glass-panel-hover transition-all duration-200 ${
                 isDark ? 'bg-slate-900/70 border-slate-800/90' : 'bg-white/80 border-slate-200/90'
@@ -105,12 +142,16 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDark }) => {
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Dedicated Compliance Tools Section */}
-        <div
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={itemVariants}
           className={`p-6 sm:p-8 rounded-2xl glass-panel relative overflow-hidden ${
             isDark ? 'bg-slate-900/60 border-slate-800' : 'bg-slate-50 border-slate-200'
           }`}
@@ -130,9 +171,13 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDark }) => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <motion.div
+            variants={containerVariants}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
             {toolsList.map((tool, idx) => (
-              <div
+              <motion.div
+                variants={itemVariants}
                 key={idx}
                 className={`p-5 rounded-xl transition-all duration-150 ${
                   isDark
@@ -149,10 +194,10 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ isDark }) => {
                 <p className={`text-sm leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   {tool.desc}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

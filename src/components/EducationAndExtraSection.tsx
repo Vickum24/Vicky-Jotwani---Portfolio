@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion, type Variants } from 'motion/react';
 import { GraduationCap, FileCheck, Globe2, BookOpen, Layers, ShieldCheck } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
@@ -6,17 +7,47 @@ interface EducationAndExtraSectionProps {
   isDark: boolean;
 }
 
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
+};
+
 export const EducationAndExtraSection: React.FC<EducationAndExtraSectionProps> = ({ isDark }) => {
   const { education, extra, projects } = resumeData;
 
   return (
     <section id="education" className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={containerVariants}
+          className="grid grid-cols-1 lg:grid-cols-12 gap-8"
+        >
           {/* Left Column: Education & Additional Information (7 cols) */}
           <div className="lg:col-span-7 space-y-8">
             {/* Education Block */}
-            <div
+            <motion.div
+              variants={itemVariants}
               className={`p-6 sm:p-8 rounded-2xl glass-panel ${
                 isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
               }`}
@@ -55,10 +86,11 @@ export const EducationAndExtraSection: React.FC<EducationAndExtraSectionProps> =
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Additional Information (All lines preserved verbatim) */}
-            <div
+            <motion.div
+              variants={itemVariants}
               className={`p-6 sm:p-8 rounded-2xl glass-panel ${
                 isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
               }`}
@@ -94,11 +126,11 @@ export const EducationAndExtraSection: React.FC<EducationAndExtraSectionProps> =
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/* Right Column: Key Strategic Programs / Projects (5 cols) */}
-          <div className="lg:col-span-5 space-y-6">
+          <motion.div variants={itemVariants} className="lg:col-span-5 space-y-6">
             <div
               className={`p-6 sm:p-8 rounded-2xl glass-panel h-full flex flex-col justify-between ${
                 isDark ? 'bg-slate-900/70 border-slate-800' : 'bg-white border-slate-200 shadow-sm'
@@ -163,8 +195,8 @@ export const EducationAndExtraSection: React.FC<EducationAndExtraSectionProps> =
                 <span className="font-mono text-cyan-400 font-semibold">Pune, India</span>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

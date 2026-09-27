@@ -1,10 +1,34 @@
 import React, { useState } from 'react';
+import { motion, type Variants } from 'motion/react';
 import { Award, ShieldAlert, Users, Zap, CheckCircle, ArrowUpRight } from 'lucide-react';
 import { resumeData } from '../data/resumeData';
 
 interface AchievementsSectionProps {
   isDark: boolean;
 }
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
+};
 
 export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark }) => {
   const { achievements } = resumeData;
@@ -40,7 +64,13 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
     <section id="impact" className="py-20 relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={itemVariants}
+          className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4"
+        >
           <div>
             <div className="flex items-center gap-2 text-sm font-mono text-cyan-400 uppercase tracking-widest mb-2 font-semibold">
               <Award className="w-4 h-4" />
@@ -76,11 +106,17 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
               </button>
             ))}
           </div>
-        </div>
+        </motion.div>
 
         {/* Big Numbers Stat Row (Only numbers from resume) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12">
-          <div className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={containerVariants}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12"
+        >
+          <motion.div variants={itemVariants} className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
             <div className="font-display text-4xl sm:text-5xl font-extrabold text-cyan-400 tabular-nums">
               12+
             </div>
@@ -90,9 +126,9 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
             <div className="text-xs sm:text-sm text-slate-400 mt-1 font-mono">
               SG Analytics & IndusInd Bank
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+          <motion.div variants={itemVariants} className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
             <div className="font-display text-4xl sm:text-5xl font-extrabold text-emerald-400 tabular-nums">
               9+
             </div>
@@ -102,9 +138,9 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
             <div className="text-xs sm:text-sm text-slate-400 mt-1 font-mono">
               Banking & Investor Services
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+          <motion.div variants={itemVariants} className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
             <div className="font-display text-4xl sm:text-5xl font-extrabold text-sky-400 tabular-nums">
               6
             </div>
@@ -114,9 +150,9 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
             <div className="text-xs sm:text-sm text-slate-400 mt-1 font-mono">
               Banks, Funds & KPO Leaders
             </div>
-          </div>
+          </motion.div>
 
-          <div className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
+          <motion.div variants={itemVariants} className={`p-6 rounded-2xl glass-panel ${isDark ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200 shadow-sm'}`}>
             <div className="font-display text-4xl sm:text-5xl font-extrabold text-amber-400 tabular-nums">
               100%
             </div>
@@ -126,13 +162,20 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
             <div className="text-xs sm:text-sm text-slate-400 mt-1 font-mono">
               FATF, EU Directives, Sanctions
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* Trophy-Like Spotlight Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
           {filteredAchievements.map((item) => (
-            <div
+            <motion.div
+              variants={itemVariants}
               key={item.id}
               className={`p-6 sm:p-7 rounded-2xl glass-panel glass-panel-hover flex flex-col justify-between transition-all duration-200 group ${
                 isDark ? 'bg-slate-900/70 border-slate-800/90' : 'bg-white/80 border-slate-200/90'
@@ -175,9 +218,9 @@ export const AchievementsSection: React.FC<AchievementsSectionProps> = ({ isDark
                   {item.category}
                 </span>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

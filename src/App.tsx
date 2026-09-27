@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { SplashScreen } from './components/SplashScreen';
 import { AnimatedBackground } from './components/AnimatedBackground';
+import { ScrollProgressBar } from './components/ScrollProgressBar';
+import { CustomCursor } from './components/CustomCursor';
+import { SectionDivider } from './components/SectionDivider';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ExperienceSection } from './components/ExperienceSection';
@@ -45,6 +48,12 @@ export default function App() {
       {/* 2. Reusable Futuristic Animated Canvas Background */}
       <AnimatedBackground isDark={isDark} />
 
+      {/* Slim Fixed Scroll Progress Bar at very top of screen */}
+      <ScrollProgressBar isDark={isDark} />
+
+      {/* Subtle Custom Cursor follower effect */}
+      <CustomCursor isDark={isDark} />
+
       {/* 3. Navigation Bar (Strict 3-Zone Top Bar Contract) */}
       <Navbar
         isDark={isDark}
@@ -61,11 +70,19 @@ export default function App() {
           onOpenJsonModal={() => setIsJsonModalOpen(true)}
         />
 
+        <SectionDivider isDark={isDark} />
+
         <ExperienceSection isDark={isDark} />
+
+        <SectionDivider isDark={isDark} />
 
         <AchievementsSection isDark={isDark} />
 
+        <SectionDivider isDark={isDark} />
+
         <SkillsSection isDark={isDark} />
+
+        <SectionDivider isDark={isDark} />
 
         <EducationAndExtraSection isDark={isDark} />
       </main>
